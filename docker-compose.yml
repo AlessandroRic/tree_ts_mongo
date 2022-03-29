@@ -1,0 +1,26 @@
+version: "3.8"
+
+services:
+  mongodb:
+    container_name: mongo_paketa
+    image: mongo:latest
+    ports:
+      - 27017:27017
+    volumes:
+      - data:/data/db
+
+  app:
+    build: .
+    container_name: app_paketa
+    restart: unless-stopped
+    ports: 
+      - 3335:3335
+    volumes: 
+      - .:/usr/app
+    links:
+      - mongodb
+    depends_on:
+      - mongodb
+
+volumes:
+  data:
